@@ -7,23 +7,16 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    private const float SpawnRate = 2.0f;
+    private float SpawnRate = 2.0f;
     public List<GameObject> prefabs;
 
     public TextMeshProUGUI ScoreText;
     public TextMeshProUGUI gameOverText;
     public Button RestartButton;
     private int score = 0;
-    public bool GameActive = true;
+    public bool GameActive = false;
+    public GameObject titleScreen;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(SpawnTarget());
-        UpdateScore(0);
-
-    }
 
     public void GameOver()
     {
@@ -57,5 +50,16 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void GameStart(int difficulty)
+    {
+        GameActive = true;
+        score = 0;
+        StartCoroutine(SpawnTarget());
+        UpdateScore(0);
+        titleScreen.gameObject.SetActive(false);
+        SpawnRate = SpawnRate / difficulty;
+        Debug.Log("Game spawn rate = " + SpawnRate);
+
+    }
 
 }
